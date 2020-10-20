@@ -5,9 +5,11 @@ let numCols;
 let numCells;
 
 let container;
-const cells = [];
-let actionCells = [];
+let cells = [];
+let adjacents = [];
 let blankCell;
+
+let startSolved;
 
 // UTILS:
 // create 'undefined' arrays to loop/map over
@@ -40,15 +42,11 @@ const createElements = function () {
       
       const isBlank = cellNumber === numCells;
 
-      const cell = strToElement(`
-        <li
-          `/*data-row="${rowIndex}"
-          data-col="${colIndex}"
-          data-index="${cellNumber - 1}"*/+`
-          data-number="${cellNumber}"
+      const cell = strToElement(
+        `<button
           ${isBlank ? 'class="blank"' : ""}
-        >${isBlank ? "(blank)" : cellNumber}</li>
-      `);
+        >${isBlank ? "(blank)" : cellNumber}</button>`
+      );
 
       cell.origIndex = cellNumber - 1;
 
@@ -59,9 +57,11 @@ const createElements = function () {
 
   // shuffle cells and append as children to our container
   container = strToElement(
-    `<ul data-rows="${numRows}" data-cols="${numCols}"></ul>`
+    `<div data-rows="${numRows}" data-cols="${numCols}"></div>`
   );
-  shuffle(cells).forEach((cell) => container.appendChild(cell));
+
+  if (!startSolved) shuffle(cells);
+  cells.forEach((cell) => container.appendChild(cell));
 };
 
 
@@ -74,8 +74,26 @@ const cellsInSequence = function() {
   return cells.every(cell => cells.indexOf(cell) === cell.origIndex);
 };
 
-const getAdjacentCells = function(targetCell) {
+// math utils for position...
+const rowNum = i => Math.ceil((i + 1) / numCols);
+const colNum = i => (i % numCols) + 1;
+const getAdjacentCells = function() {
+  adjacents = [];
+  const i = cells.indexOf(blankCell);
+
+  const row = rowNum(i);
+  if (row !== 1) adjacents.push(i - numCols); // cell above if not first row
+  if (row !== numRows) adjacents.push(i + numCols); // cell below if not last row
   
+  const col = colNum(i);
+  if (col !== 1) adjacents.push(i - 1); // cell before if not first col
+  if (col !== numCols) adjacents.push(i + 1); // cell after if not last col
+
+  adjacents = adjacents.map(ci => cells[ci]);
+};
+
+const isSolved = function() {
+  document.documentElement.classList.toggle('is-solved', cellsInSequence());
 };
 
 const swapElements = function(obj1, obj2) {
@@ -93,27 +111,45 @@ const swapElements = function(obj1, obj2) {
       }
   }
 
-  cells = Array.from(obj2.parentNode);
+  cells = Array.from(obj2.parentNode.children);
+  isSolved();
 }
 
+const adjacentsOn = function() {
+  console.log('adjacentsOn', getAdjacentCells(), adjacents);
+  adjacents.forEach(cell => {
+    cell.addEventListener('click', onCellClick, false);
+    cell.classList.add('adjacent');
+  });
+  isSolved();
+};
+
+const adjacentsOff = function() {
+  console.log('adjacentsOff', adjacents);
+  adjacents.forEach(cell => {
+    cell.removeEventListener('click', onCellClick, false);
+    cell.classList.remove('adjacent');
+  });
+};
+
 const onCellClick = function(event) {
-  unbindClicks();
+  adjacentsOff();
   swapElements(event.target, blankCell);
-  bindClicksToAdjacent(event.target);
-  
+  adjacentsOn();
 };
 
-const addListeners = function () {
-  cells.forEach(cell => cell.addEventListener('click', onCellClick, true));
-};
-
-const init = function (rows, cols) {
+const init = function (rows, cols, solved) {
   numRows = rows;
   numCols = cols;
   numCells = rows * cols;
+  startSolved = solved;
 
   addElements();
-  addListeners();
+  adjacentsOn();
+
+  window.debug = {
+    cells,
+  }
 };
 
 export default init;

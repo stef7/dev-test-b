@@ -11,6 +11,25 @@ html {
   font-family: monospace;
   min-height: 100%;
   font-size: 4vmin;
+  text-align: center;
+  &:before,
+  &:after {
+    content: '🎉';
+    font-size: 3rem;
+    padding: 0.25rem;
+    margin: -0.25rem;
+    opacity: 0;
+  }
+  &:after {
+    content: '✅';
+  }
+  &.is-solved {
+    background: green;
+    &:before,
+    &:after {
+      opacity: 1;
+    }
+  }
 }
 
 html, body {
@@ -20,7 +39,7 @@ html, body {
   align-items: center;
 }
 
-ul {
+div {
   display: grid;
   justify-content: center;
   align-content: center;
@@ -28,11 +47,17 @@ ul {
   // thought i'd be clever, but nah, not supported:
   // grid-template-rows: repeat(attr(data-rows), 1fr);
   // grid-template-columns: repeat(attr(data-cols), 1fr);
+  &[data-rows="2"] {
+    grid-template-rows: repeat(2, 1fr);
+  }
   &[data-rows="3"] {
     grid-template-rows: repeat(3, 1fr);
   }
   &[data-rows="4"] {
     grid-template-rows: repeat(4, 1fr);
+  }
+  &[data-cols="2"] {
+    grid-template-columns: repeat(2, 1fr);
   }
   &[data-cols="3"] {
     grid-template-columns: repeat(3, 1fr);
@@ -44,8 +69,12 @@ ul {
   margin: 0;
   background: #dfd;
   border-radius: 1rem;
+
+  .is-solved & {
+    background: greenyellow;
+  }
 }
-li {
+button {
   display: block;
   width: 5rem;
   height: 5rem;
@@ -54,10 +83,23 @@ li {
   text-align: center;
   background: #fdd;
   border-radius: 0.5rem;
+  border: 0;
+  font-family: inherit;
+  font-size: 1em;
 
   &.blank {
     color: transparent;
     background: transparent;
     font-size: 0.5rem;
+  }
+
+  &.adjacent {
+    background: #dad;
+    cursor: pointer;
+    border: 0.25rem outset;
+    line-height: 4.5rem;
+    &:hover {
+      background: #fbf;
+    }
   }
 }
