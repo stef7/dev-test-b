@@ -1,5 +1,3 @@
-import { html } from "common-tags";
-
 let numRows;
 let numCols;
 let numCells;
@@ -29,15 +27,15 @@ const shuffle = (array) => {
 // create element from html string
 const strToElement = (htmlStr) => {
   const template = document.createElement("template");
-  template.innerHTML = html`${htmlStr}`;
+  template.innerHTML = htmlStr;
   return template.content.firstElementChild;
 };
 
 const createElements = function () {
   let cellNumber = 0;
 
-  arr(numRows).forEach((r, rowIndex) => {
-    arr(numCols).forEach((c, colIndex) => {
+  arr(numRows).forEach(() => {
+    arr(numCols).forEach(() => {
       cellNumber += 1;
       
       const isBlank = cellNumber === numCells;
@@ -45,6 +43,7 @@ const createElements = function () {
       const cell = strToElement(
         `<button
           ${isBlank ? 'class="blank"' : ""}
+          tabindex="-1"
         >${isBlank ? "(blank)" : cellNumber}</button>`
       );
 
@@ -78,18 +77,18 @@ const cellsInSequence = function() {
 const rowNum = i => Math.ceil((i + 1) / numCols);
 const colNum = i => (i % numCols) + 1;
 const getAdjacentCells = function() {
-  adjacents = [];
+  const adjacentInds = [];
   const i = cells.indexOf(blankCell);
 
   const row = rowNum(i);
-  if (row !== 1) adjacents.push(i - numCols); // cell above if not first row
-  if (row !== numRows) adjacents.push(i + numCols); // cell below if not last row
+  if (row !== 1) adjacentInds.push(i - numCols); // cell above if not first row
+  if (row !== numRows) adjacentInds.push(i + numCols); // cell below if not last row
   
   const col = colNum(i);
-  if (col !== 1) adjacents.push(i - 1); // cell before if not first col
-  if (col !== numCols) adjacents.push(i + 1); // cell after if not last col
+  if (col !== 1) adjacentInds.push(i - 1); // cell before if not first col
+  if (col !== numCols) adjacentInds.push(i + 1); // cell after if not last col
 
-  adjacents = adjacents.map(ci => cells[ci]);
+  adjacents = adjacentInds.map(ai => cells[ai]);
 };
 
 const isSolved = function() {
@@ -120,6 +119,7 @@ const adjacentsOn = function() {
   adjacents.forEach(cell => {
     cell.addEventListener('click', onCellClick, false);
     cell.classList.add('adjacent');
+    cell.tabIndex = 0;
   });
   isSolved();
 };
@@ -129,6 +129,7 @@ const adjacentsOff = function() {
   adjacents.forEach(cell => {
     cell.removeEventListener('click', onCellClick, false);
     cell.classList.remove('adjacent');
+    cell.tabIndex = -1;
   });
 };
 
@@ -146,10 +147,6 @@ const init = function (rows, cols, solved) {
 
   addElements();
   adjacentsOn();
-
-  window.debug = {
-    cells,
-  }
 };
 
 export default init;

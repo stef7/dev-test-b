@@ -34,6 +34,7 @@ html {
 
 html, body {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-content: center;
   align-items: center;
@@ -86,6 +87,7 @@ button {
   border: 0;
   font-family: inherit;
   font-size: 1em;
+  cursor: not-allowed;
 
   &.blank {
     color: transparent;
@@ -94,10 +96,10 @@ button {
   }
 
   &.adjacent {
-    background: #dad;
+    background: #ecc;
     cursor: pointer;
-    border: 0.25rem outset;
-    line-height: 4.5rem;
+    border: 0.15rem outset;
+    line-height: 4.7rem;
     &:hover {
       background: #fbf;
     }
