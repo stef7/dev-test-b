@@ -2,31 +2,42 @@
 *, *::before, *::after {
   box-sizing: border-box; }
 
-html {
-  background: #dde;
-  font-family: monospace;
-  min-height: 100%;
-  font-size: 4vmin;
-  text-align: center; }
-  html:before, html:after {
-    content: '🎉';
-    font-size: 3rem;
-    padding: 0.25rem;
-    margin: -0.25rem;
-    opacity: 0; }
-  html:after {
-    content: '✅'; }
-  html.is-solved {
-    background: green; }
-    html.is-solved:before, html.is-solved:after {
-      opacity: 1; }
-
 html, body {
+  position: relative;
+  margin: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
   align-items: center; }
+
+body {
+  min-height: 100%;
+  overflow: visible; }
+  body:before, body:after {
+    content: '🎉';
+    font-size: 5rem;
+    display: inline-block;
+    vertical-align: top;
+    height: 1.5em;
+    line-height: 1.5em;
+    opacity: 0;
+    transition: opacity 0.5s ease; }
+  body:after {
+    content: '✅'; }
+
+html {
+  background-color: #dde;
+  font-family: monospace;
+  min-height: 100%;
+  font-size: 3vmin;
+  font-size: min(4vw, 2.5vh);
+  text-align: center;
+  transition: background-color 0.5s ease; }
+  html.is-solved {
+    background-color: green; }
+    html.is-solved body:before, html.is-solved body:after {
+      opacity: 1; }
 
 div {
   display: grid;
@@ -34,7 +45,7 @@ div {
   align-content: center;
   align-items: center;
   padding: 0.25rem;
-  margin: 0;
+  margin: 0.5rem;
   background: #dfd;
   border-radius: 1rem; }
   div[data-rows="2"] {
@@ -63,7 +74,7 @@ button {
   border-radius: 0.5rem;
   border: 0;
   font-family: inherit;
-  font-size: 1em;
+  font-size: 1.5rem;
   cursor: not-allowed; }
   button.blank {
     color: transparent;

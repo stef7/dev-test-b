@@ -169,8 +169,9 @@ var _puzzle = _interopRequireDefault(require("./puzzle"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var init = function init() {
-  (0, _puzzle["default"])(4, 4); // supports 2->4 cols/rows
-  // danger - small numbers might make some sequences impossible to arrange to
+  (0, _puzzle["default"])(4, 4, false); // supports 2->4 cols/rows
+  // -> danger - small numbers might make some sequences impossible to arrange to
+  // last argument = 'startSolved' boolean
 };
 
 init();
