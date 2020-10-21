@@ -1,0 +1,80 @@
+@charset "UTF-8";
+*, *::before, *::after {
+  box-sizing: border-box; }
+
+html {
+  background: #dde;
+  font-family: monospace;
+  min-height: 100%;
+  font-size: 4vmin;
+  text-align: center; }
+  html:before, html:after {
+    content: '🎉';
+    font-size: 3rem;
+    padding: 0.25rem;
+    margin: -0.25rem;
+    opacity: 0; }
+  html:after {
+    content: '✅'; }
+  html.is-solved {
+    background: green; }
+    html.is-solved:before, html.is-solved:after {
+      opacity: 1; }
+
+html, body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center; }
+
+div {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  padding: 0.25rem;
+  margin: 0;
+  background: #dfd;
+  border-radius: 1rem; }
+  div[data-rows="2"] {
+    grid-template-rows: repeat(2, 1fr); }
+  div[data-rows="3"] {
+    grid-template-rows: repeat(3, 1fr); }
+  div[data-rows="4"] {
+    grid-template-rows: repeat(4, 1fr); }
+  div[data-cols="2"] {
+    grid-template-columns: repeat(2, 1fr); }
+  div[data-cols="3"] {
+    grid-template-columns: repeat(3, 1fr); }
+  div[data-cols="4"] {
+    grid-template-columns: repeat(4, 1fr); }
+  .is-solved div {
+    background: greenyellow; }
+
+button {
+  display: block;
+  width: 5rem;
+  height: 5rem;
+  margin: 0.25rem;
+  line-height: 5rem;
+  text-align: center;
+  background: #fdd;
+  border-radius: 0.5rem;
+  border: 0;
+  font-family: inherit;
+  font-size: 1em;
+  cursor: not-allowed; }
+  button.blank {
+    color: transparent;
+    background: transparent;
+    font-size: 0.5rem; }
+  button.adjacent {
+    background: #ecc;
+    cursor: pointer;
+    border: 0.15rem outset;
+    line-height: 4.7rem; }
+    button.adjacent:hover {
+      background: #fbf; }
+
+/*# sourceMappingURL=style.css.map */
