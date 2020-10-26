@@ -13,15 +13,8 @@ var cells = [];
 var adjacents = [];
 var blankCell;
 var startSolved; // UTILS:
-// create 'undefined' arrays to loop/map over
-
-var arr = function arr(length) {
-  return Array.from({
-    length: length
-  });
-}; // shuffle children - better than usual method:
+// shuffle children - better than usual method:
 // https://medium.com/@nitinpatel_20236/how-to-shuffle-correctly-shuffle-an-array-in-javascript-15ea3f84bfb
-
 
 var shuffle = function shuffle(array) {
   for (var i = array.length - 1; i > 0; i -= 1) {
@@ -43,16 +36,18 @@ var strToElement = function strToElement(htmlStr) {
 
 var createElements = function createElements() {
   var cellNumber = 0;
-  arr(numRows).forEach(function () {
-    arr(numCols).forEach(function () {
+
+  for (var i = 0; i < numRows; i += 1) {
+    for (var j = 0; j < numCols; j += 1) {
       cellNumber += 1;
       var isBlank = cellNumber === numCells;
       var cell = strToElement("<button\n          ".concat(isBlank ? 'class="blank"' : "", "\n          tabindex=\"-1\"\n        >").concat(isBlank ? "(blank)" : cellNumber, "</button>"));
       cell.origIndex = cellNumber - 1;
       cells.push(cell);
       if (isBlank) blankCell = cell;
-    });
-  }); // shuffle cells and append as children to our container
+    }
+  } // shuffle cells and append as children to our container
+
 
   container = strToElement("<div data-rows=\"".concat(numRows, "\" data-cols=\"").concat(numCols, "\"></div>"));
   if (!startSolved) shuffle(cells);

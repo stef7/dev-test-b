@@ -10,9 +10,6 @@ let blankCell;
 let startSolved;
 
 // UTILS:
-// create 'undefined' arrays to loop/map over
-const arr = (length) => Array.from({ length });
-
 // shuffle children - better than usual method:
 // https://medium.com/@nitinpatel_20236/how-to-shuffle-correctly-shuffle-an-array-in-javascript-15ea3f84bfb
 const shuffle = (array) => {
@@ -34,8 +31,8 @@ const strToElement = (htmlStr) => {
 const createElements = function () {
   let cellNumber = 0;
 
-  arr(numRows).forEach(() => {
-    arr(numCols).forEach(() => {
+  for (let i = 0; i < numRows; i += 1) {
+    for (let j = 0; j < numCols; j += 1) {
       cellNumber += 1;
       
       const isBlank = cellNumber === numCells;
@@ -51,8 +48,8 @@ const createElements = function () {
 
       cells.push(cell);
       if (isBlank) blankCell = cell;
-    });
-  });
+    }
+  }
 
   // shuffle cells and append as children to our container
   container = strToElement(
