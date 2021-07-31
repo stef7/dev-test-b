@@ -15,21 +15,21 @@ const buffer = require('vinyl-buffer');
  * In this section we define global variables
  */
 const dirs = {
-  src: 'src',
-  dest: 'build'
+  src: "src",
+  dest: "public",
 };
 
 var paths = {
   styles: {
     src: `${dirs.src}/styles/style.scss`,
     dest: `${dirs.dest}/styles/`,
-    wildcard: `${dirs.src}/styles/**/*.scss`
+    wildcard: `${dirs.src}/styles/**/*.scss`,
   },
   scripts: {
     src: `${dirs.src}/scripts/script.js`,
     dest: `${dirs.dest}/scripts/`,
     wildcard: `${dirs.src}/scripts/**/*.js`,
-    dir: `${dirs.src}/scripts/`
+    dir: `${dirs.src}/scripts/`,
   },
   templates: {
     src: `${dirs.src}/templates/index.html`,
@@ -47,7 +47,7 @@ var paths = {
 const live = () => {
   browserSync.init({
     server: {
-      baseDir: "./build",
+      baseDir: "./public",
       index: "index.html",
       directory: false,
       https: false,
@@ -56,9 +56,9 @@ const live = () => {
     port: 8083,
     open: true,
     cors: true,
-    notify: false
+    notify: false,
   });
-}
+};
 
 /**
  * Styles section
