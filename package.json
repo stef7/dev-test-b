@@ -1,7 +1,7 @@
 {
-  "name": "today-test",
+  "name": "dev-test-b",
   "version": "1.0.0",
-  "description": "Today Test",
+  "description": "Dev Test B",
   "main": "index.js",
   "scripts": {
     "start": "gulp dev",
